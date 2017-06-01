@@ -20,6 +20,17 @@ io.on('connection', (socket) => {
     console.log('Disconnected from client');
   });
 
+  socket.emit('newMessage', {
+    from: 'Admin',
+    text: 'Welcome to the chat',
+    joinedAt: new Date().getTime()
+});
+    socket.broadcast.emit('newMessage', {
+      from: 'Admin',
+      text: 'New user joined',
+      joinedAt: new Date().getTime()
+    });
+
   socket.on('createMessage', (messageFromUser) => {
     console.log('User sent new message', messageFromUser);
 
@@ -28,8 +39,13 @@ io.on('connection', (socket) => {
       text: messageFromUser.text,
       createdAt: new Date().getTime()
     });
+    // socket.broadcast.emit('newMessage', {
+    //   from: messageFromUser.from,
+    //   text: messageFromUser.text,
+    //   createdAt: new Date().getTime()
+    // });
   });
-  
+
 });
 
 app.get('/', (req, res) => {
