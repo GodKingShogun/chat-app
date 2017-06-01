@@ -20,15 +20,16 @@ io.on('connection', (socket) => {
     console.log('Disconnected from client');
   });
 
-  socket.on('createMessage', (messagefromUser) => {
-    console.log('User sent new message', messagefromUser);
-  });
+  socket.on('createMessage', (messageFromUser) => {
+    console.log('User sent new message', messageFromUser);
 
-  socket.emit('newMessage', {
-    from: 'User1',
-    text: 'You are a scrub at call of duty',
-    createdAt: 123
+    io.emit('newMessage', {
+      from: messageFromUser.from,
+      text: messageFromUser.text,
+      createdAt: new Date().getTime()
+    });
   });
+  
 });
 
 app.get('/', (req, res) => {
