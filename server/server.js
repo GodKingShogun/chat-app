@@ -19,7 +19,17 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('Disconnected from client');
   });
-})
+
+  socket.on('createMessage', (messagefromUser) => {
+    console.log('User sent new message', messagefromUser);
+  });
+
+  socket.emit('newMessage', {
+    from: 'User1',
+    text: 'You are a scrub at call of duty',
+    createdAt: 123
+  });
+});
 
 app.get('/', (req, res) => {
 res.render("index.html", {
@@ -28,5 +38,5 @@ res.render("index.html", {
 });
 
 server.listen(port, (req, res) => {
-console.log(`Port is up on port ${port}`)
+console.log(`Port is up on port ${port}`);
 });
