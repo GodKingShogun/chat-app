@@ -25,10 +25,11 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
-  socket.on('createMessage', (messageFromUser) => {
+  socket.on('createMessage', (messageFromUser, callback) => {
     console.log('User sent new message', messageFromUser);
 
     io.emit('newMessage', generateMessage(messageFromUser.from, messageFromUser.text));
+    callback("This is from the server");
     // socket.broadcast.emit('newMessage', {
     //   from: messageFromUser.from,
     //   text: messageFromUser.text,
@@ -38,11 +39,11 @@ io.on('connection', (socket) => {
 
 });
 
-app.get('/', (req, res) => {
-res.render("index.html", {
-  pageTitle: "Home page"
-});
-});
+// app.get('/', (req, res) => {
+// res.render("index.html", {
+//   pageTitle: "Home page"
+// });
+// });
 
 server.listen(port, (req, res) => {
 console.log(`Port is up on port ${port}`);
