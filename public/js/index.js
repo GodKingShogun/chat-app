@@ -28,13 +28,14 @@ console.log('Disconnected from server');
 });
 
 jQuery('#send-message').on('click', function (e) {
+  var textInputField = jQuery('[name=message]');
   e.preventDefault();
 
   socket.emit('createMessage', {
     from: "User1",
-    text: jQuery('[name=message]').val()
+    text: textInputField.val()
   }, function () {
-
+    textInputField.val('');
   });
 });
 
@@ -44,12 +45,16 @@ if (!navigator.geolocation) {
   return alert('Geaolocation is not supported');
 }
 
+sendLocation.attr('disabled', 'disabled').text('Sending location ...');
+
 navigator.geolocation.getCurrentPosition(function (position){
+sendLocation.removeAttr('disabled').text('Send location');
   socket.emit('send-location', {
     lat: position.coords.latitude,
     lon: position.coords.longitude
   }, function() {
-    alert("Unable to get location")
+    sendLocation.removeAttr('disabled').text('Send location');
+    alert("Unable to get location");
   });
 });
 });
