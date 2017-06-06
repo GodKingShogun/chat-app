@@ -86,7 +86,6 @@ jQuery('#send-message').on('click', function (e) {
   e.preventDefault();
 
   socket.emit('createMessage', {
-    from: "User1",
     text: textInputField.val()
   }, function () {
     textInputField.val('');
